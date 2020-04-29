@@ -8,7 +8,7 @@ namespace BogAnsigt.Storage
 {
     public class DbStorage : IdentityDbContext<User>
     {
-        public DbStorage(DbContextOptions<DbStorage> options) : base(options)
+        public DbStorage(DbContextOptions options) : base(options)
         {
         }
 
