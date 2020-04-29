@@ -121,7 +121,7 @@ namespace Bogansigt3._0.Migrations
                             EmailConfirmed = true,
                             NormalizedEmail = "ADMIN@HOTMAIL.COM",
                             NormalizedUserName = "ADMIN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELOIyqjsNxAJw2m03zgcbo7aOocogsYAY8dEVM4gPbsT6P5LlJyHBeCmcZUdRaAccA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELyGukgIQqsy0BEfeC8hOFzbXgva5oBgTDSyxwZdGL6gZxLBiplZFjI076cgfDXT6g==",
                             PhoneNumber = "28929173",
                             SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
                             UserName = "admin@hotmail.com"

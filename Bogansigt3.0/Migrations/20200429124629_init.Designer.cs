@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bogansigt3._0.Migrations
 {
     [DbContext(typeof(DbStorage))]
-    [Migration("20200429121910_init")]
+    [Migration("20200429124629_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,9 +65,6 @@ namespace Bogansigt3._0.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -78,12 +75,6 @@ namespace Bogansigt3._0.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -99,14 +90,8 @@ namespace Bogansigt3._0.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -128,6 +113,21 @@ namespace Bogansigt3._0.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a14280f8-d2b9-4598-8c89-c699cd1ab278",
+                            ConcurrencyStamp = "bd5b9857-9d78-4f9d-81e3-28569973e0a2",
+                            Email = "admin@hotmail.com",
+                            EmailConfirmed = true,
+                            NormalizedEmail = "ADMIN@HOTMAIL.COM",
+                            NormalizedUserName = "ADMIN@HOTMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAELyGukgIQqsy0BEfeC8hOFzbXgva5oBgTDSyxwZdGL6gZxLBiplZFjI076cgfDXT6g==",
+                            PhoneNumber = "28929173",
+                            SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
+                            UserName = "admin@hotmail.com"
+                        });
                 });
 
             modelBuilder.Entity("BogAnsigt.Models.UserPicture", b =>

@@ -36,7 +36,7 @@ namespace BogAnsigt.Storage
                 Email = "admin@hotmail.com",
                 NormalizedEmail = "ADMIN@HOTMAIL.COM",
                 EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "Admin123!"),
+                PasswordHash = hasher.HashPassword(null, "admin!"),
                 SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
                 ConcurrencyStamp = "bd5b9857-9d78-4f9d-81e3-28569973e0a2",
                 PhoneNumber = "28929173",
