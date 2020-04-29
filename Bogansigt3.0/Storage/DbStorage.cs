@@ -6,7 +6,7 @@ using System;
 
 namespace BogAnsigt.Storage
 {
-    public class DbStorage : IdentityDbContext<User>
+    public class DbStorage : IdentityDbContext<User, IdentityRole, string>
     {
         public DbStorage(DbContextOptions options) : base(options)
         {
@@ -19,6 +19,8 @@ namespace BogAnsigt.Storage
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
+            base.OnModelCreating(builder);
+
             var hasher = new PasswordHasher<User>();
 
             builder.Entity<User>().Ignore(user => user.TwoFactorEnabled)
@@ -27,10 +29,13 @@ namespace BogAnsigt.Storage
                                    .Ignore(user => user.PhoneNumberConfirmed)
                                    .Ignore(user => user.AccessFailedCount);
 
+            const string ADMIN_ID = "a14280f8-d2b9-4598-8c89-c699cd1ab278";
+            const string ADMIN_ROLE_ID = "FA02B864-ECE7-45E4-9A03-6023AF206756";
+            const string USER_ROLE_ID = "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99";
 
             builder.Entity<User>().HasData(new
             {
-                Id = "a14280f8-d2b9-4598-8c89-c699cd1ab278",
+                Id = ADMIN_ID,
                 UserName = "admin@hotmail.com",
                 NormalizedUserName = "ADMIN@HOTMAIL.COM",
                 Email = "admin@hotmail.com",
@@ -43,7 +48,15 @@ namespace BogAnsigt.Storage
                 CreatedDate = new DateTime(2019, 08, 12)
             });
 
-            base.OnModelCreating(builder);
+            builder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Id = ADMIN_ROLE_ID, Name = "User", NormalizedName = "USER" },
+                new IdentityRole { Id = USER_ROLE_ID, Name = "Admin", NormalizedName = "ADMIN" }
+            );
+
+            builder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string> { RoleId = ADMIN_ROLE_ID, UserId = ADMIN_ID },
+                new IdentityUserRole<string> { RoleId = USER_ROLE_ID, UserId = ADMIN_ID }
+            );
         }
     }
 }
