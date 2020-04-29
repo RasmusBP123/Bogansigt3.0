@@ -5,10 +5,6 @@ namespace BogAnsigt.Models
 {
     public class User : IdentityUser
     {
-        public User()
-        {
-            Friends = new List<User>();
-        }
         public List<User> Friends { get; set; }
         public List<UserPicture> Pictures { get; set; }
     }

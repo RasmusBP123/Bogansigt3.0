@@ -1,11 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model IEnumerable<User>
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+﻿@model IEnumerable<User>
 @{
     ViewData["Title"] = "People";
-
-
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -15,41 +10,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-
-            </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+@foreach (var item in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
-                <td>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        @if (UserManager.GetUserId(User) != item.Id)
-                        {
-
-
-                            @if (UserManager.GetUserAsync(User).Result.Friends.Contains(item))
-                            {
-                                <a asp-action="FriendToggle" asp-route-id="@item.Id">Remove Friend</a>
-                            }
-                            else
-                            {
-                                <a asp-action="FriendToggle" asp-route-id="@item.Id">Add Friend</a>
-                            }
-
-
-                        }
-                    }
-                </td>
-            </tr>
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+        </tr>
         }
     </tbody>
 
