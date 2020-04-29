@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bogansigt3._0.Migrations
 {
-    public partial class init : Migration
+    public partial class VERY : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -106,8 +106,8 @@ namespace Bogansigt3._0.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -151,8 +151,8 @@ namespace Bogansigt3._0.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -219,9 +219,29 @@ namespace Bogansigt3._0.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "FA02B864-ECE7-45E4-9A03-6023AF206756", "aacbe1d1-e9b1-42df-9b94-74d947d18ae9", "User", "USER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99", "8b29bdba-9072-4cd0-aa17-94a5054fb164", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "ConcurrencyStamp", "Email", "EmailConfirmed", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "SecurityStamp", "UserId", "UserName" },
-                values: new object[] { "a14280f8-d2b9-4598-8c89-c699cd1ab278", "bd5b9857-9d78-4f9d-81e3-28569973e0a2", "admin@hotmail.com", true, "ADMIN@HOTMAIL.COM", "ADMIN@HOTMAIL.COM", "AQAAAAEAACcQAAAAELyGukgIQqsy0BEfeC8hOFzbXgva5oBgTDSyxwZdGL6gZxLBiplZFjI076cgfDXT6g==", "28929173", "f4572cb1-6f71-46fd-8260-0baea7287367", null, "admin@hotmail.com" });
+                values: new object[] { "a14280f8-d2b9-4598-8c89-c699cd1ab278", "bd5b9857-9d78-4f9d-81e3-28569973e0a2", "admin@hotmail.com", true, "ADMIN@HOTMAIL.COM", "ADMIN@HOTMAIL.COM", "AQAAAAEAACcQAAAAEMjCp/JLNWiewd/CQt4UfzEDV81pJAwAdFTucLQClh94Gaqw5omtx53idE+u0ks3Tg==", "28929173", "f4572cb1-6f71-46fd-8260-0baea7287367", null, "admin@hotmail.com" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { "a14280f8-d2b9-4598-8c89-c699cd1ab278", "FA02B864-ECE7-45E4-9A03-6023AF206756" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { "a14280f8-d2b9-4598-8c89-c699cd1ab278", "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
