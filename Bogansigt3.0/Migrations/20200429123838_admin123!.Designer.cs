@@ -4,14 +4,16 @@ using BogAnsigt.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bogansigt3._0.Migrations
 {
     [DbContext(typeof(DbStorage))]
-    partial class DbStorageModelSnapshot : ModelSnapshot
+    [Migration("20200429123838_admin123!")]
+    partial class admin123
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +73,6 @@ namespace Bogansigt3._0.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -118,10 +117,9 @@ namespace Bogansigt3._0.Migrations
                             Id = "a14280f8-d2b9-4598-8c89-c699cd1ab278",
                             ConcurrencyStamp = "bd5b9857-9d78-4f9d-81e3-28569973e0a2",
                             Email = "admin@hotmail.com",
-                            EmailConfirmed = true,
                             NormalizedEmail = "ADMIN@HOTMAIL.COM",
                             NormalizedUserName = "ADMIN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELOIyqjsNxAJw2m03zgcbo7aOocogsYAY8dEVM4gPbsT6P5LlJyHBeCmcZUdRaAccA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBBYN0MLRgmLHdPKlOSwGizmcmeCKFlbdOCC+Z2YnnmYGrY8skVDv7hEDvQYB8538g==",
                             PhoneNumber = "28929173",
                             SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
                             UserName = "admin@hotmail.com"
