@@ -3,7 +3,7 @@ using BogAnsigt.Storage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using System.Linq;
 using System;
 using System.Threading.Tasks;
 
@@ -29,6 +29,12 @@ namespace Bogansigt3._0.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> Friends()
+        {
+            var currentUserId =  _userManager.GetUserId(HttpContext.User);
+            var user = await _dbContext.Users.Include(user => user.Friends).FirstOrDefaultAsync(x => x.Id == currentUserId);
+            return View(user.Friends);
+        }
         public async Task<IActionResult> People()
         {
             return View( await _dbContext.Users.ToListAsync());
@@ -49,7 +55,7 @@ namespace Bogansigt3._0.Controllers
                 curUser.Friends.Remove(friend);
             }
             await _dbContext.SaveChangesAsync();
-            return RedirectToAction("People");
+            return RedirectToAction("Friends");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
