@@ -22,6 +22,7 @@ namespace Bogansigt3._0.Controllers
 
         public IActionResult Index()
         {
+            var user = HttpContext.User.Identity;
             return View();
         }
 
