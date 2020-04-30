@@ -9,6 +9,7 @@ namespace Bogansigt3._0.Services
 {
     public interface IAuthenticationService
     {
-        Task<IdentityResult> CreateRole(User user);
+        Task<IdentityResult> CreateUser(User user);
+        Task<IdentityResult> ForgotPassword(User user, string password, string newPassword);
     }
 }

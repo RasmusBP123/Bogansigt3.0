@@ -19,7 +19,7 @@ namespace Bogansigt3._0.Services
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> CreateRole(User user)
+        public async Task<IdentityResult> CreateUser(User user)
         {
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
@@ -32,6 +32,11 @@ namespace Bogansigt3._0.Services
             }
 
             return result;
+        }
+
+        public async Task<IdentityResult> ForgotPassword(User user, string password, string newPassword)
+        {
+            return await _userManager.ResetPasswordAsync(user, password, newPassword);
         }
     }
 }
