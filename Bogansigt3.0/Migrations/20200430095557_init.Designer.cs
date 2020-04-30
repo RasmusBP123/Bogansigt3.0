@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bogansigt3._0.Migrations
 {
     [DbContext(typeof(DbStorage))]
-    [Migration("20200429192935_VERY")]
-    partial class VERY
+    [Migration("20200430095557_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,7 +123,7 @@ namespace Bogansigt3._0.Migrations
                             EmailConfirmed = true,
                             NormalizedEmail = "ADMIN@HOTMAIL.COM",
                             NormalizedUserName = "ADMIN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMjCp/JLNWiewd/CQt4UfzEDV81pJAwAdFTucLQClh94Gaqw5omtx53idE+u0ks3Tg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENS4EzQ0EkCOGyv935HjwDbgkxsCLE4pzd3h7R4lTcfvhmJ8MHnzxGT8koWWifwtwA==",
                             PhoneNumber = "28929173",
                             SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
                             UserName = "admin@hotmail.com"
@@ -180,14 +180,14 @@ namespace Bogansigt3._0.Migrations
                         new
                         {
                             Id = "FA02B864-ECE7-45E4-9A03-6023AF206756",
-                            ConcurrencyStamp = "aacbe1d1-e9b1-42df-9b94-74d947d18ae9",
+                            ConcurrencyStamp = "112274a9-25aa-497d-9c17-e4add8d24120",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99",
-                            ConcurrencyStamp = "8b29bdba-9072-4cd0-aa17-94a5054fb164",
+                            ConcurrencyStamp = "595d4a0b-8f0f-4699-814b-26461a65cc56",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -244,10 +244,12 @@ namespace Bogansigt3._0.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -296,10 +298,12 @@ namespace Bogansigt3._0.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

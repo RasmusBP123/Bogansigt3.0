@@ -25,7 +25,7 @@ namespace Bogansigt3._0
             services.AddDbContext<DbStorage>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DbStorage>();
             services.AddControllersWithViews();
             services.AddRazorPages();
