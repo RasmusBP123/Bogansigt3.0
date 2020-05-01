@@ -39,7 +39,6 @@ namespace Bogansigt3._0.Controllers
         {
             return View( await _dbContext.Users.ToListAsync());
         }
-        [Route("Home/FriendToggle/")]
         public async Task<IActionResult> FriendToggle(string friendId, string refferer)
         {
             var curUser = await _userManager.GetUserAsync(HttpContext.User);
