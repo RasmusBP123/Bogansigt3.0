@@ -33,7 +33,7 @@
                 <td>
                     @if (UserManager.GetUserAsync(User).Result.Friends.Contains(item))
                     {
-                        <a asp-action="FriendToggle" asp-route-id="@item.Id">Remove Friend</a>
+                        <a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="Friends">Remove Friend</a>
                     }
                     
                 </td>
@@ -45,5 +45,5 @@
 }
 else
 {
-<p>No friends :'(</p>
+<p>No friends...  * Cricket noise *</p>
 }

@@ -38,11 +38,11 @@
 
                             @if (UserManager.GetUserAsync(User).Result.Friends.Contains(item))
                             {
-                                <a asp-action="FriendToggle" asp-route-id="@item.Id">Remove Friend</a>
+                                <a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="People">Remove Friend</a>
                             }
                             else
                             {
-                                <a asp-action="FriendToggle" asp-route-id="@item.Id">Add Friend</a>
+                                <a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="People">Add Friend</a>
                             }
 
 

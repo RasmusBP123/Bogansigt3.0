@@ -39,8 +39,8 @@ namespace Bogansigt3._0.Controllers
         {
             return View( await _dbContext.Users.ToListAsync());
         }
-        [HttpGet("Home/FriendToggle/{friendId}")]
-        public async Task<IActionResult> FriendToggle(string friendId)
+        [Route("Home/FriendToggle/")]
+        public async Task<IActionResult> FriendToggle(string friendId, string refferer)
         {
             var curUser = await _userManager.GetUserAsync(HttpContext.User);
             if (curUser == null) return NotFound();
@@ -55,7 +55,7 @@ namespace Bogansigt3._0.Controllers
                 curUser.Friends.Remove(friend);
             }
             await _dbContext.SaveChangesAsync();
-            return RedirectToAction("Friends");
+            return RedirectToAction(refferer);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
