@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using BogAnsigt.Storage;
 using BogAnsigt.Models;
 using Microsoft.AspNetCore.Identity;
+using Bogansigt3._0.Services;
 
 namespace Bogansigt3._0
 {
@@ -26,7 +27,9 @@ namespace Bogansigt3._0
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<DbStorage>();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DbStorage>(); 
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
