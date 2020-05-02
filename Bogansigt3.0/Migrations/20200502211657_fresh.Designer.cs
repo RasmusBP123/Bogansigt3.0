@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bogansigt3._0.Migrations
 {
     [DbContext(typeof(DbStorage))]
-    [Migration("20200429124629_init")]
-    partial class init
+    [Migration("20200502211657_fresh")]
+    partial class fresh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -93,9 +93,6 @@ namespace Bogansigt3._0.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -110,8 +107,6 @@ namespace Bogansigt3._0.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
@@ -123,11 +118,26 @@ namespace Bogansigt3._0.Migrations
                             EmailConfirmed = true,
                             NormalizedEmail = "ADMIN@HOTMAIL.COM",
                             NormalizedUserName = "ADMIN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELyGukgIQqsy0BEfeC8hOFzbXgva5oBgTDSyxwZdGL6gZxLBiplZFjI076cgfDXT6g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELehZtWo0S637Z+iSPlKIdZBygpN15+3eeaTl+SGqb8eOeQ/U7XKCZiroKQEUmrZQQ==",
                             PhoneNumber = "28929173",
                             SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
                             UserName = "admin@hotmail.com"
                         });
+                });
+
+            modelBuilder.Entity("BogAnsigt.Models.UserFriend", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("UserFriends");
                 });
 
             modelBuilder.Entity("BogAnsigt.Models.UserPicture", b =>
@@ -296,11 +306,19 @@ namespace Bogansigt3._0.Migrations
                         .HasForeignKey("PictureId");
                 });
 
-            modelBuilder.Entity("BogAnsigt.Models.User", b =>
+            modelBuilder.Entity("BogAnsigt.Models.UserFriend", b =>
                 {
-                    b.HasOne("BogAnsigt.Models.User", null)
+                    b.HasOne("BogAnsigt.Models.User", "Friend")
+                        .WithMany("Friends2")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BogAnsigt.Models.User", "User")
                         .WithMany("Friends")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BogAnsigt.Models.UserPicture", b =>
