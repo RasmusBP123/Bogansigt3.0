@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using BogAnsigt.Models.Viewmodel;
 
-namespace Bogansigt3._0.Controllers
+namespace BogAnsigt.Controllers
 {
     public class HomeController : Controller
     {
@@ -31,20 +33,24 @@ namespace Bogansigt3._0.Controllers
         }
         public async Task<IActionResult> Friends()
         {
-            var currentUserId =  _userManager.GetUserId(HttpContext.User);
-            var user = await _dbContext.Users.Include(user => user.Friends).FirstOrDefaultAsync(x => x.Id == currentUserId);
-            return View(user.Friends);
+            return View(await GetFriends());
         }
         public async Task<IActionResult> People()
         {
-            return View( await _dbContext.Users.ToListAsync());
+            var friends = await GetFriends();
+            var people = await _dbContext.Users.ToListAsync();
+            var peopleVM = new List<People>();
+            people.ForEach(x => peopleVM.Add(new People { Id = x.Id, Name = x.UserName, PhoneNumber = x.PhoneNumber, Friend = friends.Contains(x) }));
+            return View(peopleVM);
         }
         public async Task<IActionResult> FriendToggle(string friendId, string refferer)
         {
-            var curUser = await _userManager.GetUserAsync(HttpContext.User);
+            var curUserId = _userManager.GetUserId(HttpContext.User);
+            var curUser = _dbContext.Users.Include(x => x.Friends).FirstOrDefault(x => x.Id == curUserId);
             if (curUser == null) return NotFound();
-            var friend = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == friendId);
-            if (friend == null) return NotFound();
+            var actualFriend = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == friendId);
+            if (actualFriend == null) return NotFound();
+            var friend = new UserFriend { Friend = actualFriend, FriendId = actualFriend.Id, User = curUser, UserId = curUserId };
             if (!curUser.Friends.Contains(friend))
             {
                 curUser.Friends.Add(friend);
@@ -61,6 +67,14 @@ namespace Bogansigt3._0.Controllers
         public IActionResult Error()
         {
             return View();
+        }
+        private async Task<List<User>> GetFriends()
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var user = await _dbContext.Users.Include(user => user.Friends).ThenInclude(x => x.Friend).FirstOrDefaultAsync(x => x.Id == currentUserId);
+            var friends = new List<User>();
+            user.Friends.ForEach(x => friends.Add(x.Friend));
+            return friends;
         }
     }
 }

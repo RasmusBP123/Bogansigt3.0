@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using BogAnsigt.Storage;
 using BogAnsigt.Models;
 
-namespace Bogansigt3._0
+namespace BogAnsigt
 {
     public class Startup
     {

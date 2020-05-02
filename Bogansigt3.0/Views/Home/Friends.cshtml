@@ -31,11 +31,7 @@
                 <td>@Html.DisplayFor(modelItem => item.UserName)</td>
                 <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                 <td>
-                    @if (UserManager.GetUserAsync(User).Result.Friends.Contains(item))
-                    {
-                        <a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="Friends">Remove Friend</a>
-                    }
-                    
+                    <a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="Friends">Remove Friend</a>
                 </td>
             </tr>
         }
