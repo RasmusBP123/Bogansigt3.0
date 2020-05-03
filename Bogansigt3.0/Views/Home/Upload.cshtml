@@ -1,0 +1,51 @@
+﻿@model List<Bogansigt3._0.Models.DTO.FrindsToSeePicture>
+
+@{
+    ViewData["Title"] = "Upload";
+}
+
+
+
+@using (Html.BeginForm("Submit", "Home", FormMethod.Post, new { enctype="multipart/form-data"}))
+{
+<input type="file" name="myFile" onchange="readURL(this);" required />
+    <img id="blah" src="#" alt="your image" />
+<table border="1" cellpadding="6">
+    @for (int i = 0; i < Model.Count; i++)
+        {
+    <tr>
+        <td>
+            @Html.TextBox("friends[" + @i + "].Friend.UserName",
+                      Model[i].Friend.UserName,
+                      new { @readonly = "readonly" })
+        </td>
+        <td>
+            @Html.CheckBox("friends[" + @i + "].CanSeePicture",
+                      Model[i].CanSeePicture)
+        </td>
+
+    </tr>
+        }
+    <tr>
+        <td colspan="4">
+            <input type="submit" value="Submit" />
+        </td>
+    </tr>
+</table>
+}
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
