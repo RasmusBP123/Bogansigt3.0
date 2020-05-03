@@ -1,48 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model IEnumerable<BogAnsigt.Models.Picture>
-
-
-<h1>YourPictures</h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @* Remove later *@
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PictureBytes)
-            </th>
-            <th>
-                @* Add Comments *@
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @* Remove later *@
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                <img src="data:image;base64,@System.Convert.ToBase64String(item.PictureBytes)" width="80" height="80" />
-
-            </td>
-            @* Add Comments *@
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-            
-        }
-    </tbody>
-</table>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>

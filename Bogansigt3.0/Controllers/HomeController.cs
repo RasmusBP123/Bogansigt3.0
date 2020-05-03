@@ -25,7 +25,7 @@ namespace Bogansigt3._0.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Pictures()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             if (currentUserId != null)
@@ -33,6 +33,10 @@ namespace Bogansigt3._0.Controllers
                 var pictures = _dbContext.Picture.Where(p => p.PictureOwner.Id == currentUserId).ToList();
                 return View(pictures);
             }
+            return View();
+        }
+        public IActionResult Index()
+        {
             return View();
         }
 
