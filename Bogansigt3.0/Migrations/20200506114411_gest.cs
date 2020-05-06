@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bogansigt3._0.Migrations
 {
-    public partial class fresh : Migration
+    public partial class gest : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,18 +39,6 @@ namespace Bogansigt3._0.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Picture",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    PictureBytes = table.Column<byte[]>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Picture", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,6 +148,25 @@ namespace Bogansigt3._0.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Picture",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    PictureOwnerId = table.Column<string>(nullable: true),
+                    PictureBytes = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Picture", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Picture_AspNetUsers_PictureOwnerId",
+                        column: x => x.PictureOwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserFriends",
                 columns: table => new
                 {
@@ -179,8 +186,7 @@ namespace Bogansigt3._0.Migrations
                         name: "FK_UserFriends_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -238,7 +244,7 @@ namespace Bogansigt3._0.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "ConcurrencyStamp", "Email", "EmailConfirmed", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "SecurityStamp", "UserName" },
-                values: new object[] { "a14280f8-d2b9-4598-8c89-c699cd1ab278", "bd5b9857-9d78-4f9d-81e3-28569973e0a2", "admin@hotmail.com", true, "ADMIN@HOTMAIL.COM", "ADMIN@HOTMAIL.COM", "AQAAAAEAACcQAAAAELehZtWo0S637Z+iSPlKIdZBygpN15+3eeaTl+SGqb8eOeQ/U7XKCZiroKQEUmrZQQ==", "28929173", "f4572cb1-6f71-46fd-8260-0baea7287367", "admin@hotmail.com" });
+                values: new object[] { "a14280f8-d2b9-4598-8c89-c699cd1ab278", "bd5b9857-9d78-4f9d-81e3-28569973e0a2", "admin@hotmail.com", true, "ADMIN@HOTMAIL.COM", "ADMIN@HOTMAIL.COM", "AQAAAAEAACcQAAAAELFeK5qPGoYgNHqZeeFpSm5mBCDZS6b9otgwnKSw7Xjj7qYXDDmrJVJDUcYU/ehVfg==", "28929173", "f4572cb1-6f71-46fd-8260-0baea7287367", "admin@hotmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -288,6 +294,11 @@ namespace Bogansigt3._0.Migrations
                 name: "IX_Comment_PictureId",
                 table: "Comment",
                 column: "PictureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Picture_PictureOwnerId",
+                table: "Picture",
+                column: "PictureOwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserFriends_FriendId",

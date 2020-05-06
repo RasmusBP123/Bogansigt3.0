@@ -102,11 +102,11 @@ namespace BogAnsigt.Controllers
         public async Task<IActionResult> Upload()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var user = await _dbContext.Users.Include(user => user.Friends).FirstOrDefaultAsync(x => x.Id == currentUserId);
+            var user = await _dbContext.Users.Include(user => user.Friends).ThenInclude(friend => friend.Friend).FirstOrDefaultAsync(x => x.Id == currentUserId);
             var lis = new List<FrindsToSeePicture>();
             foreach (var item in user.Friends)
             {
-                lis.Add(new FrindsToSeePicture() { Friend = item, CanSeePicture = false });
+                lis.Add(new FrindsToSeePicture() { Friend = item.Friend, CanSeePicture = false });
             }
             return View(lis);
         }
