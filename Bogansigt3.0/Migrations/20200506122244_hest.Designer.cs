@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bogansigt3._0.Migrations
 {
     [DbContext(typeof(DbStorage))]
-    [Migration("20200430095557_init")]
-    partial class init
+    [Migration("20200506122244_hest")]
+    partial class hest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,7 +55,12 @@ namespace Bogansigt3._0.Migrations
                     b.Property<byte[]>("PictureBytes")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("PictureOwnerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PictureOwnerId");
 
                     b.ToTable("Picture");
                 });
@@ -123,7 +128,7 @@ namespace Bogansigt3._0.Migrations
                             EmailConfirmed = true,
                             NormalizedEmail = "ADMIN@HOTMAIL.COM",
                             NormalizedUserName = "ADMIN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENS4EzQ0EkCOGyv935HjwDbgkxsCLE4pzd3h7R4lTcfvhmJ8MHnzxGT8koWWifwtwA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP8uzT3NK+NwcEzgKkyUV5ATtDbIoGIVPVwrZ4bSMW/1HtfkI5G9vc04J7VjRPrZyw==",
                             PhoneNumber = "28929173",
                             SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
                             UserName = "admin@hotmail.com"
@@ -180,14 +185,14 @@ namespace Bogansigt3._0.Migrations
                         new
                         {
                             Id = "FA02B864-ECE7-45E4-9A03-6023AF206756",
-                            ConcurrencyStamp = "112274a9-25aa-497d-9c17-e4add8d24120",
+                            ConcurrencyStamp = "b77bf2d1-b827-4f9e-be74-af2269911817",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99",
-                            ConcurrencyStamp = "595d4a0b-8f0f-4699-814b-26461a65cc56",
+                            ConcurrencyStamp = "b038de52-b27c-4b53-a413-c4bae973542b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -322,6 +327,13 @@ namespace Bogansigt3._0.Migrations
                     b.HasOne("BogAnsigt.Models.Picture", null)
                         .WithMany("Comments")
                         .HasForeignKey("PictureId");
+                });
+
+            modelBuilder.Entity("BogAnsigt.Models.Picture", b =>
+                {
+                    b.HasOne("BogAnsigt.Models.User", "PictureOwner")
+                        .WithMany()
+                        .HasForeignKey("PictureOwnerId");
                 });
 
             modelBuilder.Entity("BogAnsigt.Models.User", b =>

@@ -14,7 +14,7 @@
             <ul>
                 @foreach (var role in await AuthenticationService.GetRoles(Context.User.Identity.Name))
                 {
-                    <p>@role.ToString()</p>
+                    <li>@role.ToString()</li>
                 }
             </ul>
         </li>
