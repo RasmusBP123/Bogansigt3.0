@@ -6,6 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
+using Bogansigt3._0.Models.DTO;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Collections.Generic;
 using BogAnsigt.Models.Viewmodel;
 
@@ -22,6 +27,16 @@ namespace BogAnsigt.Controllers
             _userManager = userManager;
         }
 
+        public IActionResult Pictures()
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            if (currentUserId != null)
+            {
+                var pictures = _dbContext.Picture.Where(p => p.PictureOwner.Id == currentUserId).ToList();
+                return View(pictures);
+            }
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
@@ -61,6 +76,45 @@ namespace BogAnsigt.Controllers
             }
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(refferer);
+        }
+        [HttpPost]
+        public async Task<ActionResult> SubmitAsync(IFormFile myFile, List<FrindsToSeePicture> friends)
+        {
+
+            var picture = new Picture();
+            picture.Id = Guid.NewGuid().ToString();
+            using (var memoryStream = new MemoryStream())
+            {
+                await myFile.CopyToAsync(memoryStream);
+                picture.PictureBytes = memoryStream.ToArray();
+            }
+            picture.PictureOwner = await _userManager.GetUserAsync(HttpContext.User);
+            
+            _dbContext.Add(picture);
+            var allowedFriends =  friends.Where(f => f.CanSeePicture == true).Select(f => f.Friend).ToList();
+            foreach (var item in allowedFriends)
+            {
+                _dbContext.Add(new UserPicture() {Picture = picture, User = item });
+            }
+            _dbContext.SaveChanges();
+            return Redirect("Index");
+        }
+        public async Task<IActionResult> Upload()
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var user = await _dbContext.Users.Include(user => user.Friends).FirstOrDefaultAsync(x => x.Id == currentUserId);
+            var lis = new List<FrindsToSeePicture>();
+            foreach (var item in user.Friends)
+            {
+                lis.Add(new FrindsToSeePicture() { Friend = item, CanSeePicture = false });
+            }
+            return View(lis);
+        }
+        public async Task<IActionResult> YourPictures()
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var pictures = _dbContext.Picture.Where(p => p.PictureOwner.Id == currentUserId);
+            return View(pictures);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
