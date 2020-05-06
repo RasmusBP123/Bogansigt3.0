@@ -96,9 +96,6 @@ namespace Bogansigt3._0.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -113,8 +110,6 @@ namespace Bogansigt3._0.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
@@ -126,11 +121,26 @@ namespace Bogansigt3._0.Migrations
                             EmailConfirmed = true,
                             NormalizedEmail = "ADMIN@HOTMAIL.COM",
                             NormalizedUserName = "ADMIN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEAHCPgmZxkRLfqVsfsfUM+Ohg/F9KIahlYs1Myzcn7vZr6+LlMhj182Q5WUzGzQRA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMT42S8CGlcGnAHEKpsrQrAKXO0lVc4rEUD/o9zP12W/HkNq1c2KvOBGh9fEUBKpzA==",
                             PhoneNumber = "28929173",
                             SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
                             UserName = "admin@hotmail.com"
                         });
+                });
+
+            modelBuilder.Entity("BogAnsigt.Models.UserFriend", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("UserFriends");
                 });
 
             modelBuilder.Entity("BogAnsigt.Models.UserPicture", b =>
@@ -178,6 +188,22 @@ namespace Bogansigt3._0.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "FA02B864-ECE7-45E4-9A03-6023AF206756",
+                            ConcurrencyStamp = "7364b3ab-12c1-47bf-a6a4-65fb2e71a702",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99",
+                            ConcurrencyStamp = "cc14e105-b83d-4780-8abb-53cc4a041919",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -265,6 +291,18 @@ namespace Bogansigt3._0.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "a14280f8-d2b9-4598-8c89-c699cd1ab278",
+                            RoleId = "FA02B864-ECE7-45E4-9A03-6023AF206756"
+                        },
+                        new
+                        {
+                            UserId = "a14280f8-d2b9-4598-8c89-c699cd1ab278",
+                            RoleId = "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -306,11 +344,19 @@ namespace Bogansigt3._0.Migrations
                         .HasForeignKey("PictureOwnerId");
                 });
 
-            modelBuilder.Entity("BogAnsigt.Models.User", b =>
+            modelBuilder.Entity("BogAnsigt.Models.UserFriend", b =>
                 {
-                    b.HasOne("BogAnsigt.Models.User", null)
+                    b.HasOne("BogAnsigt.Models.User", "Friend")
+                        .WithMany("Friends2")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BogAnsigt.Models.User", "User")
                         .WithMany("Friends")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BogAnsigt.Models.UserPicture", b =>
