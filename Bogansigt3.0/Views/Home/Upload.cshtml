@@ -15,6 +15,11 @@
         {
     <tr>
         <td>
+            @Html.TextBox("friends[" + @i + "].Friend.Id",
+                      Model[i].Friend.Id,
+                      new { @readonly = "readonly" })
+        </td>
+        <td>
             @Html.TextBox("friends[" + @i + "].Friend.UserName",
                       Model[i].Friend.UserName,
                       new { @readonly = "readonly" })

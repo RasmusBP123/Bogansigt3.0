@@ -27,18 +27,33 @@ namespace BogAnsigt.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Pictures()
+        public async Task<IActionResult> Pictures()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             if (currentUserId != null)
             {
-                var pictures = _dbContext.Picture.Where(p => p.PictureOwner.Id == currentUserId).ToList();
+
+                var pictures = _dbContext.Picture.Include(p=> p.Comments).ThenInclude(c => c.Author).Where(p => p.PictureOwner.Id == currentUserId).ToList();
+               
                 return View(pictures);
             }
             return View();
         }
         public IActionResult Index()
         {
+            return View();
+        }
+        public async Task<IActionResult> PicturesSharedWithMe()
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var curUser = _dbContext.Users.Include(x => x.Friends).FirstOrDefault(x => x.Id == currentUserId);
+            if (currentUserId != null)
+            {
+                var pictures = _dbContext.UserPictures.Include(up => up.Picture).ThenInclude(p=> p.Comments).Where(up => up.User == curUser).Select(up => up.Picture).ToList();
+
+                
+                return View(pictures);
+            }
             return View();
         }
 
@@ -94,7 +109,7 @@ namespace BogAnsigt.Controllers
             var allowedFriends =  friends.Where(f => f.CanSeePicture == true).Select(f => f.Friend).ToList();
             foreach (var item in allowedFriends)
             {
-                _dbContext.Add(new UserPicture() {Picture = picture, User = item });
+                _dbContext.Add(new UserPicture() {Picture = picture, UserId = item.Id, Id = Guid.NewGuid().ToString() });
             }
             _dbContext.SaveChanges();
             return Redirect("Index");
@@ -113,8 +128,20 @@ namespace BogAnsigt.Controllers
         public async Task<IActionResult> YourPictures()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var pictures = _dbContext.Picture.Where(p => p.PictureOwner.Id == currentUserId);
+            var pictures = _dbContext.Picture.Include(p => p.Comments).Where(p => p.PictureOwner.Id == currentUserId).ToList();
+           
             return View(pictures);
+        }
+        public async Task<IActionResult> AddComment(string Comment, string pictureId)
+        {
+            var picture = _dbContext.Picture.Include(p => p.Comments).Where(p => p.Id == pictureId).FirstOrDefault();
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            var user = await _dbContext.Users.Include(user => user.Friends).ThenInclude(friend => friend.Friend).FirstOrDefaultAsync(x => x.Id == currentUserId);
+            picture.Comments.Add(new Comment() {CommentText = Comment, Author = user, Created = DateTime.Now, Id = Guid.NewGuid().ToString()});
+            _dbContext.Update(picture);
+            _dbContext.SaveChanges();
+
+            return Redirect("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
