@@ -25,18 +25,32 @@ namespace Bogansigt3._0.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Pictures()
+        public async Task<IActionResult> Pictures()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
             if (currentUserId != null)
             {
-                var pictures = _dbContext.Picture.Where(p => p.PictureOwner.Id == currentUserId).ToList();
+
+                var pictures = _dbContext.Picture.Include(p=> p.Comments).Where(p => p.PictureOwner.Id == currentUserId).ToList();
+               
                 return View(pictures);
             }
             return View();
         }
         public IActionResult Index()
         {
+            return View();
+        }
+        public async Task<IActionResult> PicturesSharedWithMe()
+        {
+            var currentUserId = _userManager.GetUserId(HttpContext.User);
+            if (currentUserId != null)
+            {
+
+                var pictures = _dbContext.UserPictures.Where(up => up.User.Id == currentUserId).Select(up => up.Picture).ToList();
+
+                return View(pictures);
+            }
             return View();
         }
 
@@ -107,8 +121,15 @@ namespace Bogansigt3._0.Controllers
         public async Task<IActionResult> YourPictures()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var pictures = _dbContext.Picture.Where(p => p.PictureOwner.Id == currentUserId);
+            var pictures = _dbContext.Picture.Include(p => p.Comments).Where(p => p.PictureOwner.Id == currentUserId).ToList();
+           
             return View(pictures);
+        }
+        public async Task<IActionResult> AddComment(string Comment)
+        {
+
+
+            return Redirect("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

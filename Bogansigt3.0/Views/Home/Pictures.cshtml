@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.PictureBytes)
             </th>
             <th>
-                @* Add Comments *@
+                Comment
             </th>
         </tr>
     </thead>
@@ -33,12 +33,39 @@
                 <img src="data:image;base64,@System.Convert.ToBase64String(item.PictureBytes)" width="80" height="80" />
 
             </td>
-            @* Add Comments *@
             <td>
+            @if (item.Comments != null)
+            {
+                <table border="1" cellpadding="6">
+                    @for (int i = 0; i < item.Comments.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.TextBox("comments[" + @i + "].Author.UserName",
+                            item.Comments[i].Author.UserName,
+                            new { @readonly = "readonly" })
+                            </td>
+                            <td>
+                                @Html.TextBox("comments[" + @i + "].CommentText",
+                           item.Comments[i].CommentText,
+                           new { @readonly = "readonly" })
+                            </td>
+
+                        </tr>
+                    }
+                    <tr>
+                        
+                    </tr>
+                </table>
+            }
+            </td>
+            
+            @* Add Comments *@
+            @*<td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+            </td>*@
         </tr>
             
         }

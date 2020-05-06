@@ -1,0 +1,86 @@
+﻿@model IEnumerable<BogAnsigt.Models.Picture>
+@{
+    ViewData["Title"] = "PicturesSharedWithMe";
+}
+
+<h1>PicturesSharedWithMe</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @* Remove later *@
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PictureBytes)
+            </th>
+            <th>
+                Comment
+            </th>
+            <th>
+                Add Comment
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @* Remove later *@
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <img src="data:image;base64,@System.Convert.ToBase64String(item.PictureBytes)" width="80" height="80" />
+
+                </td>
+                <td>
+                    @if (item.Comments != null)
+                    {
+                        <table border="1" cellpadding="6">
+                            @for (int i = 0; i < item.Comments.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.TextBox("comments[" + @i + "].Author.UserName",
+                                    item.Comments[i].Author.UserName,
+                                    new { @readonly = "readonly" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBox("comments[" + @i + "].CommentText",
+                                   item.Comments[i].CommentText,
+                                   new { @readonly = "readonly" })
+                                    </td>
+
+                                </tr>
+                            }
+                            <tr>
+                            </tr>
+                        </table>
+                    }
+                </td>
+                <td>
+                    @using (Html.BeginForm("AddComment", "Home", FormMethod.Post))
+                    {
+                        
+                        <label for="Comment">Comment:</label>
+                        <input type="text" name="Comment" value="" />
+                        <td colspan="4">
+                                    <input type="submit" value="Submit" />
+                        </td>
+                    }
+
+                </td>
+
+                @* Add Comments *@
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>*@
+            </tr>
+
+        }
+    </tbody>
+</table>
