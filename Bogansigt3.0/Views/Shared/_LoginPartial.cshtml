@@ -3,33 +3,36 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Friends">My Friends</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-            <ul>
-                @foreach (var role in await AuthenticationService.GetRoles(Context.User.Identity.Name))
-                {
-                    <li>@role.ToString()</li>
-                }
-            </ul>
-        </li>
-        <li class="nav-item">
-            <button type="submit" class="nav-link btn btn-link text-dark" onclick="location.href='@Url.Action("Logout", "Identity")'">Logout</button>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Identity" asp-action="Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Identity" asp-action="Login">Login</a>
-        </li>
-    }
-</ul>
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Pictures">My Pictures</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Friends">My Friends</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                <ul>
+                    @foreach (var role in await AuthenticationService.GetRoles(Context.User.Identity.Name))
+                    {
+                        <li>@role.ToString()</li>
+                    }
+                </ul>
+            </li>
+            <li class="nav-item">
+                <button type="submit" class="nav-link btn btn-link text-dark" onclick="location.href='@Url.Action("Logout", "Identity")'">Logout</button>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Identity" asp-action="Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Identity" asp-action="Login">Login</a>
+            </li>
+        }
+    </ul>
 
