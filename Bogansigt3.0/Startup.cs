@@ -9,7 +9,7 @@ using BogAnsigt.Models;
 using Microsoft.AspNetCore.Identity;
 using Bogansigt3._0.Services;
 
-namespace Bogansigt3._0
+namespace BogAnsigt
 {
     public class Startup
     {
