@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model IEnumerable<User>
+@using BogAnsigt.Models.Viewmodel
+@model IEnumerable<People>
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @{
@@ -13,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
@@ -27,25 +28,18 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
                 <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                 <td>
-                    @if (SignInManager.IsSignedIn(User))
+                    @if (SignInManager.IsSignedIn(User) && UserManager.GetUserId(User) != item.Id)
                     {
-                        @if (UserManager.GetUserId(User) != item.Id)
+                        @if (item.Friend)
                         {
-
-
-                            @if (UserManager.GetUserAsync(User).Result.Friends.Contains(item))
-                            {
-                                <a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="People">Remove Friend</a>
-                            }
-                            else
-                            {
-                                <a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="People">Add Friend</a>
-                            }
-
-
+                            <!--<a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="People">Remove Friend</a>-->
+                        }
+                        else
+                        {
+                            <a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="People">Add Friend</a>
                         }
                     }
                 </td>
