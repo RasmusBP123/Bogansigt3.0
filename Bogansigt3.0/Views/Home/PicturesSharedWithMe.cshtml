@@ -63,7 +63,8 @@
                 <td>
                     @using (Html.BeginForm("AddComment", "Home", FormMethod.Post))
                     {
-                        
+                        <input type="text" name="pictureId" value=@item.Id hidden="hidden"/>
+
                         <label for="Comment">Comment:</label>
                         <input type="text" name="Comment" value="" />
                         <td colspan="4">
