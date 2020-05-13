@@ -49,8 +49,6 @@ namespace Bogansigt3._0.Controllers
             { 
                 return View("Login");
             }
-            return Ok();
-
         }
 
         public async Task<IActionResult> Logout()
