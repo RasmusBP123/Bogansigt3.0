@@ -51,6 +51,8 @@
                                         @Html.TextBox("comments[" + @i + "].CommentText",
                                    item.Comments[i].CommentText,
                                    new { @readonly = "readonly" })
+                                        @* Unsafe html
+                                            Html.Raw(item.Comments[i].CommentText)*@
                                     </td>
 
                                 </tr>
