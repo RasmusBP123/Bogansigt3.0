@@ -45,7 +45,12 @@ namespace Bogansigt3._0.Controllers
             {
                 RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            else
+            { 
+                return View("Login");
+            }
+            return Ok();
+
         }
 
         public async Task<IActionResult> Logout()
