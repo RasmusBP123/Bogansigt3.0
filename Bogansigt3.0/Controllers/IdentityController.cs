@@ -43,7 +43,7 @@ namespace Bogansigt3._0.Controllers
             var result = await _authenticationService.Login(user, user.PasswordHash);
             if (result.Succeeded)
             {
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             { 
