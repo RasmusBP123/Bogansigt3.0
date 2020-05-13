@@ -46,9 +46,8 @@ namespace Bogansigt3._0.Controllers
                 RedirectToAction("Index", "Home");
             }
             else
-            {
-                ViewData["LoginResult"] = result;
-                return View("Login", result);
+            { 
+                return View("Login");
             }
             return Ok();
 
