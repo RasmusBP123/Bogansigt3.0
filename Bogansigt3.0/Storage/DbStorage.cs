@@ -60,7 +60,7 @@ namespace BogAnsigt.Storage
             );
             base.OnModelCreating(builder);
             builder.Entity<UserFriend>().HasKey(aue => new { aue.UserId, aue.FriendId });
-            builder.Entity<UserFriend>().HasOne(aue => aue.User).WithMany(e => e.Friends).HasForeignKey(aue => aue.UserId).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<UserFriend>().HasOne(aue => aue.User).WithMany(e => e.Friends).HasForeignKey(aue => aue.UserId).OnDelete(DeleteBehavior.ClientSetNull);
             builder.Entity<UserFriend>().HasOne(aue => aue.Friend).WithMany(e => e.Friends2).HasForeignKey(aue => aue.FriendId);
 
 
