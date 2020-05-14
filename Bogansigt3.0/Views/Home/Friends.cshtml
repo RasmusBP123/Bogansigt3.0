@@ -31,7 +31,7 @@
                 <td>@Html.DisplayFor(modelItem => item.UserName)</td>
                 <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                 <td>
-                    <!--<a asp-action="FriendToggle" asp-route-friendId="@item.Id" asp-route-refferer="Friends">Remove Friend</a>-->
+                    <a asp-action="FriendRemove" asp-route-friendId="@item.Id" asp-route-refferer="Friends">Remove Friend</a>
                 </td>
             </tr>
         }

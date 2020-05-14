@@ -13,6 +13,7 @@ using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Collections.Generic;
 using BogAnsigt.Models.Viewmodel;
+using Microsoft.Extensions.Logging;
 
 namespace BogAnsigt.Controllers
 {
@@ -20,11 +21,13 @@ namespace BogAnsigt.Controllers
     {
         private readonly DbStorage _dbContext;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public HomeController(DbStorage dbContext, UserManager<User> userManager)
+        public HomeController(DbStorage dbContext, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Pictures()
@@ -67,11 +70,19 @@ namespace BogAnsigt.Controllers
         }
         public async Task<IActionResult> People()
         {
-            var friends = await GetFriends();
-            var people = await _dbContext.Users.ToListAsync();
             var peopleVM = new List<People>();
+            if (_signInManager.IsSignedIn(HttpContext.User)) { 
+            var friends = await GetFriends();
+            var people = await _dbContext.Users.Where(x => x.Id != _userManager.GetUserId(HttpContext.User)).ToListAsync();
             people.ForEach(x => peopleVM.Add(new People { Id = x.Id, Name = x.UserName, PhoneNumber = x.PhoneNumber, Friend = friends.Contains(x) }));
+            }
+            else
+            {
+                var people = await _dbContext.Users.ToListAsync();
+                people.ForEach(x => peopleVM.Add(new People { Id = x.Id, Name = x.UserName, PhoneNumber = x.PhoneNumber, Friend = true }));
+            }
             return View(peopleVM);
+            
         }
         public async Task<IActionResult> FriendToggle(string friendId, string refferer)
         {
@@ -81,16 +92,32 @@ namespace BogAnsigt.Controllers
             var actualFriend = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == friendId);
             if (actualFriend == null) return NotFound();
             var friend = new UserFriend { Friend = actualFriend, FriendId = actualFriend.Id, User = curUser, UserId = curUserId };
+            var hest = new UserFriend { User = actualFriend, UserId = actualFriend.Id, Friend = curUser, FriendId = curUserId };
             if (!curUser.Friends.Contains(friend))
             {
                 curUser.Friends.Add(friend);
+                actualFriend.Friends.Add(hest);
+                await _dbContext.SaveChangesAsync();
             }
-            else
-            {
-                curUser.Friends.Remove(friend);
-            }
-            await _dbContext.SaveChangesAsync();
             return RedirectToAction(refferer);
+        }
+        public async Task<IActionResult> FriendRemove(string friendId, string refferer)
+        {
+            var curUserId = _userManager.GetUserId(HttpContext.User);
+            try
+            {
+                var userFriend = _dbContext.UserFriends.Where(uf => uf.UserId == curUserId && uf.FriendId == friendId).FirstOrDefault();
+                var friendUser = _dbContext.UserFriends.Where(uf => uf.UserId == friendId && uf.FriendId == curUserId).FirstOrDefault();
+                _dbContext.UserFriends.Remove(userFriend);
+                _dbContext.UserFriends.Remove(friendUser);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e);
+            }
+            return RedirectToAction(refferer);
+
         }
         [HttpPost]
         public async Task<ActionResult> SubmitAsync(IFormFile myFile, List<FrindsToSeePicture> friends)
