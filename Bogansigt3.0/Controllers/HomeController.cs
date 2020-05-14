@@ -13,6 +13,7 @@ using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Collections.Generic;
 using BogAnsigt.Models.Viewmodel;
+using Microsoft.Extensions.Logging;
 
 namespace BogAnsigt.Controllers
 {
@@ -81,14 +82,27 @@ namespace BogAnsigt.Controllers
             {
                 curUser.Friends.Add(friend);
                 actualFriend.Friends.Add(hest);
+                await _dbContext.SaveChangesAsync();
             }
-            else
-            {
-                curUser.Friends.Remove(friend);
-                actualFriend.Friends.Remove(hest);
-            }
-            await _dbContext.SaveChangesAsync();
             return RedirectToAction(refferer);
+        }
+        public async Task<IActionResult> FriendRemove(string friendId, string refferer)
+        {
+            var curUserId = _userManager.GetUserId(HttpContext.User);
+            try
+            {
+                var userFriend = _dbContext.UserFriends.Where(uf => uf.UserId == curUserId && uf.FriendId == friendId).FirstOrDefault();
+                var friendUser = _dbContext.UserFriends.Where(uf => uf.UserId == friendId && uf.FriendId == curUserId).FirstOrDefault();
+                _dbContext.UserFriends.Remove(userFriend);
+                _dbContext.UserFriends.Remove(friendUser);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e);
+            }
+            return RedirectToAction(refferer);
+
         }
         [HttpPost]
         public async Task<ActionResult> SubmitAsync(IFormFile myFile, List<FrindsToSeePicture> friends)
