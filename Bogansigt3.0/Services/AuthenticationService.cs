@@ -51,6 +51,10 @@ namespace Bogansigt3._0.Services
         public async Task<SignInResult> Login(User user, string password)
         {
             var userbyemail = await _userManager.FindByEmailAsync(user.Email);
+            if (userbyemail == null)
+            {
+                return new SignInResult();
+            }
             var result = await _signInManager.PasswordSignInAsync(userbyemail, password, false, false);
             return result;
         }
