@@ -27,6 +27,13 @@ namespace BogAnsigt.Controllers
             _userManager = userManager;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchForUsers(string input)
+        {
+            var result = await _dbContext.Users.FromSqlRaw($"SELECT * FROM dbo.AspNetUsers WHERE UserName LIKE '%{input}%'").ToListAsync();
+            return Ok(result);
+        }
+
         public async Task<IActionResult> Pictures()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
@@ -34,15 +41,16 @@ namespace BogAnsigt.Controllers
             {
 
                 var pictures = _dbContext.Picture.Include(p=> p.Comments).ThenInclude(c => c.Author).Where(p => p.PictureOwner.Id == currentUserId).ToList();
-               
                 return View(pictures);
             }
             return View();
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
         public async Task<IActionResult> PicturesSharedWithMe()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);

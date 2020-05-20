@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Bogansigt3._0.Migrations
 {
-    public partial class hest : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -244,17 +244,17 @@ namespace Bogansigt3._0.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "FA02B864-ECE7-45E4-9A03-6023AF206756", "7364b3ab-12c1-47bf-a6a4-65fb2e71a702", "User", "USER" });
+                values: new object[] { "FA02B864-ECE7-45E4-9A03-6023AF206756", "7ec8d130-a880-4b11-ad53-ec65cfe83a1d", "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99", "cc14e105-b83d-4780-8abb-53cc4a041919", "Admin", "ADMIN" });
+                values: new object[] { "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99", "e0b59ca3-d9b2-4fc2-b92b-ec66fa01dbc2", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "ConcurrencyStamp", "Email", "EmailConfirmed", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "SecurityStamp", "UserName" },
-                values: new object[] { "a14280f8-d2b9-4598-8c89-c699cd1ab278", "bd5b9857-9d78-4f9d-81e3-28569973e0a2", "admin@hotmail.com", true, "ADMIN@HOTMAIL.COM", "ADMIN@HOTMAIL.COM", "AQAAAAEAACcQAAAAEMT42S8CGlcGnAHEKpsrQrAKXO0lVc4rEUD/o9zP12W/HkNq1c2KvOBGh9fEUBKpzA==", "28929173", "f4572cb1-6f71-46fd-8260-0baea7287367", "admin@hotmail.com" });
+                values: new object[] { "a14280f8-d2b9-4598-8c89-c699cd1ab278", "bd5b9857-9d78-4f9d-81e3-28569973e0a2", "admin@hotmail.com", true, "ADMIN@HOTMAIL.COM", "ADMIN@HOTMAIL.COM", "AQAAAAEAACcQAAAAEDrRXQY0Rl8E+H1zM4003cJHXPRjCAWWgkFh1gQC+5ghqpE5o9cd69vMYAS1SqqBAw==", "28929173", "f4572cb1-6f71-46fd-8260-0baea7287367", "admin@hotmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

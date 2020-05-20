@@ -121,7 +121,7 @@ namespace Bogansigt3._0.Migrations
                             EmailConfirmed = true,
                             NormalizedEmail = "ADMIN@HOTMAIL.COM",
                             NormalizedUserName = "ADMIN@HOTMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMT42S8CGlcGnAHEKpsrQrAKXO0lVc4rEUD/o9zP12W/HkNq1c2KvOBGh9fEUBKpzA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDrRXQY0Rl8E+H1zM4003cJHXPRjCAWWgkFh1gQC+5ghqpE5o9cd69vMYAS1SqqBAw==",
                             PhoneNumber = "28929173",
                             SecurityStamp = "f4572cb1-6f71-46fd-8260-0baea7287367",
                             UserName = "admin@hotmail.com"
@@ -193,14 +193,14 @@ namespace Bogansigt3._0.Migrations
                         new
                         {
                             Id = "FA02B864-ECE7-45E4-9A03-6023AF206756",
-                            ConcurrencyStamp = "7364b3ab-12c1-47bf-a6a4-65fb2e71a702",
+                            ConcurrencyStamp = "7ec8d130-a880-4b11-ad53-ec65cfe83a1d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "0BFBD470-5DC8-4CD2-93FE-88049B3D9E99",
-                            ConcurrencyStamp = "cc14e105-b83d-4780-8abb-53cc4a041919",
+                            ConcurrencyStamp = "e0b59ca3-d9b2-4fc2-b92b-ec66fa01dbc2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
