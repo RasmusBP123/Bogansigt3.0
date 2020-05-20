@@ -10,7 +10,7 @@ namespace BogAnsigt.Storage
     {
         public DbStorage(DbContextOptions<DbStorage> options) : base(options)
         {
-            Database.Migrate();
+            //Database.Migrate();
         }
 
         public DbSet<Picture> Picture { get; set; }
