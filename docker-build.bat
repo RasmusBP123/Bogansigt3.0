@@ -1,0 +1,1 @@
+docker build -t jesp209i/bogansigt:testbuild -f Bogansigt3.0/Dockerfile .
