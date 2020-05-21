@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  bogansigt:
+    image: "jesp209i/bogansigt:latest"
+    container_name: bogansigt1
+    ports:
+      - "5000:80"
+      - "5001:443"
+
+    depends_on:
+      - db
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: bogansigt1-dbserver
+    environment:
+      SA_PASSWORD: "Horse123!"
+      ACCEPT_EULA: "Y"
