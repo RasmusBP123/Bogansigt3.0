@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Collections.Generic;
 using BogAnsigt.Models.Viewmodel;
 using Microsoft.Extensions.Logging;
 
@@ -36,7 +35,7 @@ namespace BogAnsigt.Controllers
             if (currentUserId != null)
             {
 
-                var pictures = _dbContext.Picture.Include(p=> p.Comments).ThenInclude(c => c.Author).Where(p => p.PictureOwner.Id == currentUserId).ToList();
+                var pictures = await _dbContext.Picture.Include(p=> p.Comments).ThenInclude(c => c.Author).Where(p => p.PictureOwner.Id == currentUserId).ToListAsync();
                
                 return View(pictures);
             }
@@ -52,7 +51,7 @@ namespace BogAnsigt.Controllers
             var curUser = _dbContext.Users.Include(x => x.Friends).FirstOrDefault(x => x.Id == currentUserId);
             if (currentUserId != null)
             {
-                var pictures = _dbContext.UserPictures.Include(up => up.Picture).ThenInclude(p=> p.Comments).Where(up => up.User == curUser).Select(up => up.Picture).ToList();
+                var pictures = await _dbContext.UserPictures.Include(up => up.Picture).ThenInclude(p=> p.Comments).Where(up => up.User == curUser).Select(up => up.Picture).ToListAsync();
 
                 
                 return View(pictures);
@@ -82,8 +81,24 @@ namespace BogAnsigt.Controllers
                 people.ForEach(x => peopleVM.Add(new People { Id = x.Id, Name = x.UserName, PhoneNumber = x.PhoneNumber, Friend = true }));
             }
             return View(peopleVM);
-            
         }
+        [HttpPost]
+        public async Task<IActionResult> SearchForUsers(string input)
+        {
+            var peopleVM = new List<People>();
+            var people = await _dbContext.Users.FromSqlRaw($"SELECT * FROM dbo.AspNetUsers WHERE UserName LIKE '%{input}%'").ToListAsync();
+            if (_signInManager.IsSignedIn(HttpContext.User))
+            {
+                var friends = await GetFriends();
+                people.ForEach(x => peopleVM.Add(new People { Id = x.Id, Name = x.UserName, PhoneNumber = x.PhoneNumber, Friend = friends.Contains(x) }));
+            }
+            else
+            {
+                people.ForEach(x => peopleVM.Add(new People { Id = x.Id, Name = x.UserName, PhoneNumber = x.PhoneNumber, Friend = true }));
+            }
+            return View("People", peopleVM);
+        }
+
         public async Task<IActionResult> FriendToggle(string friendId, string refferer)
         {
             var curUserId = _userManager.GetUserId(HttpContext.User);
@@ -155,7 +170,7 @@ namespace BogAnsigt.Controllers
         public async Task<IActionResult> YourPictures()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);
-            var pictures = _dbContext.Picture.Include(p => p.Comments).Where(p => p.PictureOwner.Id == currentUserId).ToList();
+            var pictures = await _dbContext.Picture.Include(p => p.Comments).Where(p => p.PictureOwner.Id == currentUserId).ToListAsync();
            
             return View(pictures);
         }
@@ -176,6 +191,7 @@ namespace BogAnsigt.Controllers
         {
             return View();
         }
+
         private async Task<List<User>> GetFriends()
         {
             var currentUserId = _userManager.GetUserId(HttpContext.User);

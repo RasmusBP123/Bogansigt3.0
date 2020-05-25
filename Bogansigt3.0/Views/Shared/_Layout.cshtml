@@ -25,8 +25,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="People">People</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li>
+                            <form method="post" asp-antiforgery="false" asp-controller="Home" asp-action="SearchForUsers">
+                                <input type="search" name="input" size="10"/>
+                                <input type="submit" value="Search" />
+                            </form>
                         </li>
                     </ul>
                 </div>
