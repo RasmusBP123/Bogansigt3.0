@@ -2,7 +2,8 @@ version: '3.4'
 
 services:
   bogansigt:
-    image: "jesp209i/bogansigt:latest"
+#    image: "jesp209i/bogansigt:latest"
+    image: "jesp209i/bogansigt:sqltest"
     container_name: bogansigt1
     ports:
       - "5000:80"
